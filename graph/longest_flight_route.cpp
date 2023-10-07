@@ -14,22 +14,23 @@ int main()
         int a, b;
         cin >> a >> b;
         adj[a].push_back(b);
-        indegree[b]++;
+        // indegree[b]++;
     }
 
-    indegree[0] = 1e9;
+    // indegree[0] = 1e9;
 
     queue<int> q;
-    for (int i = 1; i <= n; i++)
-    {
-        if (indegree[i] == 0)
-        {
-            q.push(i);
-        }
-    }
+    // for (int i = 1; i <= n; i++)
+    // {
+    //     if (indegree[i] == 0)
+    //     {
+    //         q.push(i);
+    //     }
+    // }
     vector<int> par(n + 1);
     vector<int> dist(n + 1, -1);
     dist[1] = 0;
+    q.push(1);
     while (!q.empty())
     {
         int node = q.front();
@@ -41,12 +42,13 @@ int main()
             {
                 dist[x] = dist[node] + 1;
                 par[x] = node;
-            }
-            indegree[x]--;
-            if (indegree[x] == 0)
-            {
                 q.push(x);
             }
+            // indegree[x]--;
+            // if (indegree[x] == 0)
+            // {
+            //     q.push(x);
+            // }
         }
     }
     // cout<<dist[n]<<" "<<INT_MIN<<" ";

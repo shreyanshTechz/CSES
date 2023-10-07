@@ -32,6 +32,7 @@ int main()
             }
         }
     }
+   
     if (!ptr)
     {
         cout << "NO\n";
@@ -43,6 +44,8 @@ int main()
         {
             ptr = parent[ptr];
         }
+        // it is an important step as it make the ptr to point to a node which is in negative cycle and it will leads to termination of below loop
+     
         vector<ll> cycle;
         for (int v = ptr;; v = parent[v])
         {

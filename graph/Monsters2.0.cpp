@@ -44,13 +44,9 @@ int main()
         {
             int d = turn[x][y];
             string ans;
-            // for(auto i:turn){ for(auto j:i) cout<<j<<" "; cout<<" \n";}
 
             while (d != -1)
             {
-                // cout<<d<<" ";
-                // cout<<x<<" "<<y<<" "<<"\n";
-
                 ans += direction[d];
                 x -= dir[d][0];
                 y -= dir[d][1];

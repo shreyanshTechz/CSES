@@ -1,12 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// fails only for one testcase when n==1000
-// gives runtime error as we are building 1000*1000 vector
-// correct solution is Monster2
-
-
-
 int dir[4][2] = {{-1, 0}, {0, 1}, {0, -1}, {1, 0}};
 char direction[4] = {'U', 'R', 'L', 'D'};
 
@@ -20,9 +14,8 @@ int main()
         cin >> s[i];
     }
 
-    vector<vector<int>> dist(n, vector<int>(m, 1e9));
     queue<pair<int, int>> q;
-
+    vector<vector<int>> turn(n, vector<int>(m));
     int sti = 0, stj = 0;
 
     for (int i = 0; i < n; i++)
@@ -37,61 +30,51 @@ int main()
             if (s[i][j] == 'M')
             {
                 q.push({i, j});
-                dist[i][j] = 0;
             }
         }
     }
-
-    while (!q.empty())
-    {
-        auto node = q.front();
-        int x = node.first, y = node.second;
-        q.pop();
-        for (int i = 0; i < 4; i++)
-        {
-            int nx = x + dir[i][0], ny = y + dir[i][1];
-            if (nx >= 0 and nx < n and ny >= 0 and ny < m and s[nx][ny] != '#')
-            {
-                if (dist[nx][ny] > 1 + dist[x][y])
-                {
-                    dist[nx][ny] = 1 + dist[x][y];
-                    q.push({nx, ny});
-                }
-            }
-        }
-    }
-
-    vector<vector<int>> vis(n, vector<int>(m, 1e9));
-    vis[sti][stj] = 0;
-
-    vector<vector<string>> ans(n, vector<string>(m, ""));
-
     q.push({sti, stj});
-
+    turn[sti][stj] = -1;
     while (!q.empty())
     {
         auto node = q.front();
         int x = node.first, y = node.second;
         q.pop();
-        if (x == 0 or y == 0 or x == n - 1 or y == m - 1)
+        if (s[x][y] == 'A' and (x == 0 || x == n - 1 || y == 0 || y == m - 1))
         {
+            int d = turn[x][y];
+            string ans;
+            // for(auto i:turn){ for(auto j:i) cout<<j<<" "; cout<<" \n";}
+
+            while (d != -1)
+            {
+                // cout<<d<<" ";
+                // cout<<x<<" "<<y<<" "<<"\n";
+
+                ans += direction[d];
+                x -= dir[d][0];
+                y -= dir[d][1];
+
+                d = turn[x][y];
+            }
+            reverse(ans.begin(), ans.end());
             cout << "YES\n";
-            cout << ans[x][y].size() << "\n";
-            cout << ans[x][y];
+            cout << ans.size() << "\n";
+            cout << ans << "\n";
             return 0;
         }
+
         for (int i = 0; i < 4; i++)
         {
             int nx = x + dir[i][0], ny = y + dir[i][1];
-            if (nx >= 0 and nx < n and ny >= 0 and ny < m and s[nx][ny] != '#')
+            if (nx >= 0 and nx < n and ny >= 0 and ny < m)
             {
-                if (vis[nx][ny] > 1 + vis[x][y] and 1 + vis[x][y] < dist[nx][ny])
-                {
-                    ans[nx][ny] = ans[x][y];
-                    ans[nx][ny].push_back(direction[i]);
-                    vis[nx][ny] = 1 + vis[x][y];
-                    q.push({nx, ny});
-                }
+                if (s[nx][ny] != '.')
+                    continue;
+                s[nx][ny] = s[x][y];
+                if (s[x][y] == 'A')
+                    turn[nx][ny] = i;
+                q.push({nx, ny});
             }
         }
     }

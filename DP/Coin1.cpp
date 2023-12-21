@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 int main()
 {
     long long int n, target;
@@ -11,14 +11,16 @@ int main()
         cin >> denominations[i];
     }
     vector<long long int> dp(10e6, 0);
-    sort(denominations.begin(), denominations.end());
-    dp[0]=1;
-    for (auto x : denominations)
+    for (auto i : denominations)
     {
-        for (int i = 0; i <= target; i++)
+        dp[i] = 1;
+    }
+    for (int i = 1; i <= target; i++)
+    {
+        for (auto x : denominations)
         {
             if (i >= x)
-                dp[i] = (dp[i] + dp[i - x]) % 1000000007;
+                dp[i] = (dp[i] + dp[i - x])%1000000007;
         }
     }
     cout << dp[target];

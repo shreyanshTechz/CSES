@@ -11,7 +11,7 @@ int main()
         cin >> arr[i];
     }
     
-    int dp[n + 1][n + 1];
+    ll dp[n + 1][n + 1];
     for (int i = 1; i <= n; i++)
     {
         pre[i] = pre[i - 1] + arr[i];

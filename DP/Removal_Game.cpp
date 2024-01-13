@@ -20,10 +20,13 @@ int main()
 
     for (int j = 1; j < n; j++)
     {
-        for (int i = 1; i <= n; i++)
+        // k  = i+j;
+        // i = k-j;
+        for (int k = 1+j; k <= n+j; k++)
         {
-            if(i+j > n) break;
-            dp[i][j+i] = max(pre[j+i] - pre[i-1] - dp[i+1][j+i],pre[j+i] - pre[i-1] - dp[i][j+i-1]);
+            if(k > n) break;
+            ll sums = pre[k] - pre[k-j-1];
+            dp[k-j][k] = max(sums - dp[k-j+1][k],sums - dp[k-j][k-1]);
         }
         
     }
